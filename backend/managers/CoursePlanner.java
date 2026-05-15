@@ -18,7 +18,13 @@ public class CoursePlanner {
     public List<Schedule> schedules = new ArrayList<>();
 
     private CoursePlanner() {
-        schedules = Files.list(Paths.get("/backend/data/schedules")).map()
+        schedules = Files.list(Paths.get("/backend/data/schedules")).map(schedulePath -> {
+            Schedule schedule = new Schedule();
+            Files.readAllLines(schedulePath).stream()
+                .map(courseStr -> {
+                    return new Course()
+                })
+        }))
     }
 
     public static CoursePlanner get() {

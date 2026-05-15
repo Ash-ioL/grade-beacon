@@ -46,4 +46,8 @@ public class Course {
     public void setCategory(String newCategory) {
         this.category = newCategory;
     }
+
+    public Course copy() {
+        return new Course(name, code, description, category);
+    }
 }

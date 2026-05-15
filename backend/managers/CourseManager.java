@@ -14,8 +14,9 @@ import java.io.IOException;
 
 public class CourseManager {
 
-    List<Course> courseList = new ArrayList<>();
+    Map<Integer, Course> courseList = new HashMap<>();
     Map<String, Integer> categoryRequirements = new HashMap<>(); // name, amount req
+    int graduationReq;
     static CourseManager instance;
 
     private CourseManager() {
@@ -24,15 +25,17 @@ public class CourseManager {
             List<String> courseDescs = Files.readAllLines(Paths.get("/backend/data/course_list/course_descriptions.txt"));
             List<String> courseCodes = Files.readAllLines(Paths.get("/backend/data/course_list/course_codes.txt"));
             List<String> courseCategories = Files.readAllLines(Paths.get("/backend/data/course_list/course_categories.txt"));
-            courseList = IntStream.range(0, courseNames.size())
-                .mapToObj(c -> {
-                    Course course = new Course(courseNames.get(c), courseDescs.get(c), courseCodes.get(c), courseCategories.get(c));
-                    return course;
-                })
-                .collect(
-                    Collectors.toCollection(()-> new ArrayList<>()) // so its mutable
-                );
-
+            // courseList = IntStream.range(0, courseNames.size())
+            //     .mapToObj(c -> {
+            //         Course course = new Course(courseNames.get(c), courseDescs.get(c), courseCodes.get(c), courseCategories.get(c));
+            //         return course;
+            //     })
+            //     .collect(
+            //         Collectors.toCollection(()-> new ArrayList<>()) // so its mutable
+            //     );
+            for (int i = 0; i < courseNames.size(); i++) {
+                courseList.put(Integer.parseInt(courseCodes.get(i)), new Course(courseNames.get(i), courseCodes.get(i), courseDescs.get(i), courseCategories.get(i)));
+            }
             List<String> categories = Files.readAllLines(Paths.get("/backend/data/categories/category_names.txt"));
             List<Integer> requirements = Files.readAllLines(Paths.get("/backend/data/categories/category_requirements.txt")).stream()
                 .map(item -> Integer.parseInt(item))
@@ -44,7 +47,7 @@ public class CourseManager {
             System.out.println(E.getStackTrace());
             System.exit(1);
         }
-        
+
     }
 
     public static CourseManager get() {
@@ -55,9 +58,11 @@ public class CourseManager {
     }
 
     public void addCourse(Course newCourse) {
-        courseList.add(newCourse);
-        if (!categoryRequirements.containsKey(newCourse.getCategory())) {
-            categoryRequirements.put(newCourse.getCategory(), 0);
+        courseList.put(Integer.parseInt(newCourse.getCode()), newCourse);
+        try {
+            Files.writeString(Paths.get("/backend/data/course_list/course_names.txt"), "");
+        } catch(IOException e) {
+            System.out.print(e.getStackTrace());
         }
     }
 
