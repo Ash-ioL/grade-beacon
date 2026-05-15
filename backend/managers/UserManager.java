@@ -34,20 +34,12 @@ public class UserManager {
         ids = ids.stream()
             .sorted((a, b) -> a - b)
             .toList();
-        int id = (int)(Math.random()*1000);
-        int idx = 0;
-        int mod = 10;
-        int n = ids.size();
-        int lowest = -1;
-        boolean found = false;
-        while (lowest == -1) {
-            if (idx == n) {
-                idx = 0;
-                mod *= 10;
-            }
-            idx += 1;
-            id += 1;
+        int id = 0;
+        for (int i = 0; i < ids.size() && id >= ids.get(i); i++) {
+            if (id == ids.get(i)) 
+                id += 1;
         }
+        student.setId("0".repeat(4-String.valueOf(id).length())+id);
     }
 
     public void setTeacher(Teacher teacher) {
