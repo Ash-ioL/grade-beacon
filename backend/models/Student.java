@@ -1,55 +1,20 @@
 package backend.models;
 
-public class Student {
-    private String name;
-    private String username;
-    private String password;
-    private int id;
+import backend.managers.UserManager;
+
+public class Student extends User{
+    private String id = 0;
 
     public Student(String name, String username, String password) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
+        super(name, username, password);
+        id = UserManager.get()
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return
-            String.format("Name: %s\n"+
-                          "Username: %s\n"+
-                          "Password: %s\n",
-                          name, username, password);
     }
 }
