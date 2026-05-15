@@ -30,7 +30,7 @@ public class Schedule {
     public void printSchedule() {
         for (int i = 0; i < courses.size(); i++) {
             Course course = courses.get(i);
-            System.out.printf("%d. %s | %s (%s): %s\n", i+1, course.getCategory(), course.getName(), course.getCode(), course.getDesc());
+            System.out.printf("%d. %s", courses.get(i).toString());
         }
     }
 }

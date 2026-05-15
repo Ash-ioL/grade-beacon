@@ -18,13 +18,18 @@ public class CoursePlanner {
     public List<Schedule> schedules = new ArrayList<>();
 
     private CoursePlanner() {
-        schedules = Files.list(Paths.get("/backend/data/schedules")).map(schedulePath -> {
-            Schedule schedule = new Schedule();
-            Files.readAllLines(schedulePath).stream()
-                .map(courseStr -> {
-                    return new Course()
-                })
-        }))
+        try {
+            schedules = Files.list(Paths.get("/backend/data/schedules")).map(schedulePath -> {
+                Schedule schedule = new Schedule();
+                Files.readAllLines(schedulePath).stream()
+                    .map(courseStr -> {
+                        return CourseManager.getCourse(Integer.valueOf(courseStr))
+                    });
+            }));
+        } catch (IOException e) {
+            System.out.print(e.getStackTrace());
+            System.exit(1);
+        }
     }
 
     public static CoursePlanner get() {

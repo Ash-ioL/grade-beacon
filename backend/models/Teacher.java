@@ -3,9 +3,6 @@ package backend.models;
 import backend.managers.UserManager;
 
 public class Teacher extends User{
-    private String name;
-    private String username;
-    private String password;
     private Teacher teacher;
 
     private Teacher(String name, String username, String password) {
@@ -25,5 +22,10 @@ public class Teacher extends User{
             return new Teacher("No Teacher Set", "NA", "Password");
         }
         return teacher;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Teacher---------\nName: %s\nUsername: %s\nPassword: %s\n", this.getName(), this.getUsername(), this.getPassword());
     }
 }

@@ -1,16 +1,12 @@
 package backend.managers;
 
 import backend.models.Course;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.HashMap;
-import java.util.stream.Collectors;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CourseManager {
 
@@ -34,7 +30,7 @@ public class CourseManager {
             //         Collectors.toCollection(()-> new ArrayList<>()) // so its mutable
             //     );
             for (int i = 0; i < courseNames.size(); i++) {
-                courseList.put(Integer.parseInt(courseCodes.get(i)), new Course(courseNames.get(i), courseCodes.get(i), courseDescs.get(i), courseCategories.get(i)));
+                courseList.put(Integer.parseInt(courseCodes.get(i)), new Course(courseNames.get(i), Integer.parseInt(courseCodes.get(i)), courseDescs.get(i), courseCategories.get(i)));
             }
             List<String> categories = Files.readAllLines(Paths.get("/backend/data/categories/category_names.txt"));
             List<Integer> requirements = Files.readAllLines(Paths.get("/backend/data/categories/category_requirements.txt")).stream()
@@ -58,9 +54,15 @@ public class CourseManager {
     }
 
     public void addCourse(Course newCourse) {
-        courseList.put(Integer.parseInt(newCourse.getCode()), newCourse);
+        courseList.put(newCourse.getCode(), newCourse);
         try {
-            Files.writeString(Paths.get("/backend/data/course_list/course_names.txt"), "");
+            Files.writeString(Paths.get("/backend/data/course_list/course_names.txt"), "\n"+newCourse.getName());
+            Files.writeString(Paths.get("/backend/data/course_list/course_descs.txt"), "\n"+newCourse.getDesc());
+            Files.writeString(Paths.get("/backend/data/course_list/course_codes.txt"), "\n"+
+                "0"
+                .repeat(
+                    Math.max(0, 4-String.valueOf(newCourse.getCode()).length())
+                ) + newCourse.getCode());
         } catch(IOException e) {
             System.out.print(e.getStackTrace());
         }
@@ -71,7 +73,7 @@ public class CourseManager {
     }
 
     public void updateCourse(int idx, Course newCourse) {
-        courseList.set(idx, newCourse);
+        //courseList.set(idx, newCourse);
     }
 
     public void printCourses() {
@@ -80,6 +82,5 @@ public class CourseManager {
             System.out.printf("%d. %s | %s (%s): %s\n", i+1, course.getCategory(), course.getName(), course.getCode(), course.getDesc());
         }
     }
-
     
 }

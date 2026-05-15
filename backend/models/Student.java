@@ -1,20 +1,30 @@
 package backend.models;
 
-import backend.managers.UserManager;
-
 public class Student extends User{
 
-    private String id;
+    private int id;
 
     public Student(String name, String username, String password) {
         super(name, username, password);
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Name: %s\nUsername: %s\nPassword: %s\nID: %d\n", this.getName(), this.getUsername(), this.getPassword(), id);
+    }
+
+    public String getFormattedID() {
+        return "0".repeat(Math.max(
+            0,
+            4-String.valueOf(id).length()
+        )) + id;
     }
 }

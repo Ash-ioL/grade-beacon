@@ -41,7 +41,7 @@ public class UserManager {
             if (id == ids.get(i)) 
                 id += 1;
         }
-        student.setId("0".repeat(4-String.valueOf(id).length())+id);
+        student.setId(id);
     }
 
     public void setTeacher(Teacher teacher) {
@@ -55,5 +55,16 @@ public class UserManager {
             }
         }
         return Optional.empty();
+    }
+
+    public void printStudents() {
+        for (int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            System.out.printf("%s\n", students.get(i).toString());
+        }
+    }
+
+    public void printTeacher() {
+        System.out.print(teacher.toString());
     }
 }

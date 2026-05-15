@@ -1,15 +1,13 @@
 package backend.models;
 
-import java.util.Locale.Category;
-
 public class Course {
 
     private String name;
-    private String code;
+    private int code;
     private String description;
     private String category;
 
-    public Course(String name, String code, String description, String category) {
+    public Course(String name, int code, String description, String category) {
         this.name = name;
         this.code = code;
         this.description = description;
@@ -20,7 +18,7 @@ public class Course {
         return name;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
@@ -32,7 +30,7 @@ public class Course {
         this.name = name;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
@@ -49,5 +47,17 @@ public class Course {
 
     public Course copy() {
         return new Course(name, code, description, category);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s | %s (%s): %s\n", category, name, this.getFormattedCode(), description);
+    }
+
+    public String getFormattedCode() {
+        return "0".repeat(Math.max(
+            0,
+            4-String.valueOf(code).length()
+        )) + code;
     }
 }
