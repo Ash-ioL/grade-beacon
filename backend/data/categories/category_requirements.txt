@@ -1,0 +1,15 @@
+30
+40
+30
+20
+10
+10
+70
+10
+20
+230
+
+/*
+ * The total credits are added in the end
+ * Set to -1 if no credit requriement
+ */ 
