@@ -27,7 +27,7 @@ public class UserManager {
         students.add(student);
         pickID(student);
     }
-
+    
     private void pickID(Student student) {
         List<Integer> ids = new ArrayList<>();
         for (Student i : students) {
