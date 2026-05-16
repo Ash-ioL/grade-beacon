@@ -60,4 +60,16 @@ public class Course {
             4-String.valueOf(code).length()
         )) + code;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Course) {
+            Course course = (Course) o;
+            return course.getCode() == this.getCode() && 
+                course.getName().equals(this.getName()) && 
+                course.getDesc().equals(this.getDesc()) && 
+                course.getCategory().equals(this.getCategory());
+        }
+        return false;
+    }
 }

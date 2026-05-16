@@ -27,4 +27,16 @@ public class Student extends User{
             4-String.valueOf(id).length()
         )) + id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Student) {
+            Student student = (Student) o;
+            return student.getUsername().equals(this.getUsername()) && 
+                student.getName().equals(this.getName()) && 
+                student.getPassword().equals(this.getPassword()) && 
+                student.getId() == this.getId();
+        }
+        return false;
+    }
 }

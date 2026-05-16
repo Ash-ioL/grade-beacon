@@ -54,15 +54,18 @@ public class CourseManager {
     }
 
     public void addCourse(Course newCourse) {
+        if (courseList.containsKey(newCourse.getCode()) && courseList.get(newCourse.getCode()) == newCourse) {
+            System.out.println("Course could not be added as the course code is not unique.");
+            return;
+        }
+
         courseList.put(newCourse.getCode(), newCourse);
         try {
             Files.writeString(Paths.get("/backend/data/course_list/course_names.txt"), "\n"+newCourse.getName());
             Files.writeString(Paths.get("/backend/data/course_list/course_descs.txt"), "\n"+newCourse.getDesc());
-            Files.writeString(Paths.get("/backend/data/course_list/course_codes.txt"), "\n"+
-                "0"
-                .repeat(
-                    Math.max(0, 4-String.valueOf(newCourse.getCode()).length())
-                ) + newCourse.getCode());
+            Files.writeString(Paths.get("/backend/data/course_list/course_codes.txt"), "\n"+newCourse.getFormattedCode());
+            Files.writeString(Paths.get("/backend/data/course_list/course_categories.txt"), "\n"+newCourse.getCategory());
+            
         } catch(IOException e) {
             System.out.print(e.getStackTrace());
         }
