@@ -7,6 +7,7 @@ public class Main {
         UserManager authenticator = UserManager.get();
         Student student1 = new Student("Ashwath", "ashwath1234", "password1234");
         authenticator.addStudent(student1);
-        System.out.print(authenticator.studentLogin("ashwath1234", "password1234"));
+        System.out.print(authenticator.studentLogin("ashwath1234", "password1234").get()+"\n");
+        authenticator.printStudents();
     }
 }

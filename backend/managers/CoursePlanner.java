@@ -1,15 +1,13 @@
 package backend.managers;
 
-import backend.managers.UserManager;
-import backend.models.Student;
 import backend.models.Course;
 import backend.models.Schedule;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.io.IOException;
 
 public class CoursePlanner {
     
@@ -19,15 +17,26 @@ public class CoursePlanner {
 
     private CoursePlanner() {
         try {
-            schedules = Files.list(Paths.get("/backend/data/schedules")).map(schedulePath -> {
-                Schedule schedule = new Schedule();
-                Files.readAllLines(schedulePath).stream()
-                    .map(courseStr -> {
-                        return CourseManager.getCourse(Integer.valueOf(courseStr))
-                    });
-            }));
+            // schedules = Files.list(Paths.get("backend/data/schedules"))
+            //     .map(schedulePath -> {
+            //         Course[] courses = Files.readAllLines(schedulePath).stream()
+            //             .map(courseStr -> (Course) CourseManager.get().getCourse(Integer.valueOf(courseStr)))
+            //             .toArray((e)->new Course[e]);
+            //         return new Schedule(courses);
+            //     })
+            //     .collect(Collectors.toList());
+            List<Path> paths;
+            try (var files = Files.list(Paths.get("backend/data/schedules"))) {
+                paths = files.toList();
+            }
+            for (Path path : paths) {
+                Course[] courses = Files.readAllLines(path).stream()
+                    .map(courseStr -> (Course) CourseManager.get().getCourse(Integer.parseInt(courseStr)))
+                    .toArray(Course[]::new);
+                schedules.add(new Schedule(courses));
+            }
         } catch (IOException e) {
-            System.out.print(e.getStackTrace());
+            e.printStackTrace();
             System.exit(1);
         }
     }

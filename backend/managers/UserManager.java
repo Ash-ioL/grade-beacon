@@ -2,7 +2,6 @@ package backend.managers;
 
 import backend.models.Student;
 import backend.models.Teacher;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,7 +19,7 @@ public class UserManager {
 
     private UserManager() {
         try {
-            students = Files.readAllLines(Paths.get("/backend/data/users/students.csv")).stream()
+            students = Files.readAllLines(Paths.get("backend/data/users/students.csv")).stream()
                 .map(info -> {
                     String[] vals = info.split(",");
                     Student student = new Student(vals[0], vals[1], vals[2]);
@@ -32,7 +31,8 @@ public class UserManager {
                 );
             registeredTeachers = Teacher.getRegistered();
         } catch (IOException e) {
-            System.out.print(e.getStackTrace());
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 
@@ -50,16 +50,27 @@ public class UserManager {
         List<Integer> curIds = students.stream()
             .map(s->s.getId())
             .toList();
+
+        pickID(student);
+        
         if (curUsers.contains(student.getUsername()) || curIds.contains(student.getId())) {
             System.out.println("Student could not be added as the username/id is not unique.");
             return;
         }
 
         students.add(student);
-        pickID(student);
 
         try {
-            Files.writeString(Paths.get("/backend/data/users/students.csv"), String.format("%s,%s,%s,%s", student.getName(), student.getUsername(), student.getPassword(), student.getFormattedID()));
+            List<String> content = Files.readAllLines(
+                Paths.get("backend/data/users/students.csv")
+            );
+            content.add(String.format("%s,%s,%s,%s", 
+                student.getName(), 
+                student.getUsername(), 
+                student.getPassword(), 
+                student.getFormattedID()
+            ));
+            Files.write(Paths.get("backend/data/users/students.csv"), content);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -76,7 +87,7 @@ public class UserManager {
                 })
                 .toList();
                 
-            Files.write(Paths.get("/backend/data/users/students.csv"), lines);
+            Files.write(Paths.get("backend/data/users/students.csv"), lines);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -92,7 +103,7 @@ public class UserManager {
             return;
         }
         try {
-            Files.writeString(Paths.get("/backend/data/users/teachers.csv"), String.format("\n%s,%s,%s", teacher.getName(), teacher.getUsername(), teacher.getPassword()));
+            Files.writeString(Paths.get("backend/data/users/teachers.csv"), String.format("\n%s,%s,%s", teacher.getName(), teacher.getUsername(), teacher.getPassword()));
         } catch(IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -109,7 +120,7 @@ public class UserManager {
             })
             .toList();
         try {
-            Files.write(Paths.get("/backend/data/users/teachers.csv"), lines);
+            Files.write(Paths.get("backend/data/users/teachers.csv"), lines);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);

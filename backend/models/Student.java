@@ -18,7 +18,7 @@ public class Student extends User{
 
     @Override
     public String toString() {
-        return String.format("Name: %s\nUsername: %s\nPassword: %s\nID: %d\n", this.getName(), this.getUsername(), this.getPassword(), id);
+        return String.format("Name: %s\nUsername: %s\nPassword: %s\nID: %s\n", this.getName(), this.getUsername(), this.getPassword(), getFormattedID());
     }
 
     public String getFormattedID() {

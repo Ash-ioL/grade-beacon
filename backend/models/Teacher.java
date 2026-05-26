@@ -38,7 +38,7 @@ public class Teacher extends User{
 
     public static List<Teacher> getRegistered() {
         try {
-            return Files.readAllLines(Paths.get("/backend/data/users/teachers.csv")).stream()
+            return Files.readAllLines(Paths.get("backend/data/users/teachers.csv")).stream()
                 .map(info -> {
                     String[] vals = info.split(",");
                     Teacher teacher = new Teacher(vals[0], vals[1], vals[2]);
@@ -57,7 +57,7 @@ public class Teacher extends User{
     public static Teacher registerTeacher(String name, String username, String password) {
         Teacher teacher = new Teacher(name, username, password);
         try {
-            Files.writeString(Paths.get("/backend/data/users/teachers.csv"), String.format("\n%s,%s,%s", teacher.getName(), teacher.getUsername(), teacher.getPassword()));
+            Files.writeString(Paths.get("backend/data/users/teachers.csv"), String.format("\n%s,%s,%s", teacher.getName(), teacher.getUsername(), teacher.getPassword()));
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
