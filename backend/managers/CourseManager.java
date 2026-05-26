@@ -13,6 +13,7 @@ public class CourseManager {
     Map<Integer, Course> courseList = new HashMap<>();
     Map<String, Integer> categoryRequirements = new HashMap<>(); // name, amount req
     int graduationReq;
+    
     static CourseManager instance;
 
     private CourseManager() {
@@ -79,7 +80,7 @@ public class CourseManager {
         //courseList.set(idx, newCourse);
     }
 
-    public void setCourses() {
+    public void resetData() {
 
     }
 
