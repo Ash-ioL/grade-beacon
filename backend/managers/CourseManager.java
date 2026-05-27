@@ -13,7 +13,7 @@ public class CourseManager {
     Map<Integer, Course> courseList = new HashMap<>();
     Map<String, Integer> categoryRequirements = new HashMap<>(); // name, amount req
     int graduationReq;
-    
+
     static CourseManager instance;
 
     private CourseManager() {
@@ -81,7 +81,16 @@ public class CourseManager {
     }
 
     public void resetData() {
-
+        List<Course> courses = courseList.values().stream().toList();
+        try {
+            Files.write(Paths.get("backend/data/course_list/course_names.txt"), courses.stream().map(c->c.getName()).toList());
+            Files.write(Paths.get("backend/data/course_list/course_descs.txt"), courses.stream().map(c->c.getDesc()).toList());
+            Files.write(Paths.get("backend/data/course_list/course_codes.txt"), courses.stream().map(c->c.getFormattedCode()).toList());
+            Files.write(Paths.get("backend/data/course_list/course_categories.txt"), courses.stream().map(c->c.getCategory()).toList());
+        } catch(IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     public void printCourses() {

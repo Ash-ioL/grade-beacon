@@ -52,7 +52,7 @@ public class UserManager {
             .toList();
 
         pickID(student);
-        
+
         if (curUsers.contains(student.getUsername()) || curIds.contains(student.getId())) {
             System.out.println("Student could not be added as the username/id is not unique.");
             return;
@@ -166,5 +166,21 @@ public class UserManager {
 
     public void printTeacher() {
         System.out.print(teacher.toString());
+    }
+
+    public void resetData() {
+        List<String> studentLines = students.stream()
+            .map(s -> String.format("%s,%s,%s,%s", s.getName(), s.getUsername(), s.getPassword(), s.getFormattedID()))
+            .toList();
+        List<String> teacherLines = registeredTeachers.stream()
+            .map(t -> String.format("%s,%s,%s", t.getName(), t.getUsername(), t.getPassword()))
+            .toList();
+        try {
+            Files.write(Paths.get("backend/data/users/students.csv"), studentLines);
+            Files.write(Paths.get("backend/data/users/teachers.csv"), teacherLines);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }

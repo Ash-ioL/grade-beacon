@@ -60,4 +60,10 @@ public class CoursePlanner {
         schedules.set(idx, _new);
     }
 
+    public void printSchedules() {
+        for (int i = 0; i < schedules.size(); i++) {
+            System.out.printf("%d. ", i);
+            schedules.get(i).printSchedule();
+        }
+    }
 }
